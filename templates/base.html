@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Теплий Сезон{% endblock %}</title>
-    <!-- Tailwind CSS 4 через CDN (для навчання та прототипів) -->
+    <!-- Tailwind CSS 4 через CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @keyframes slideDown {
@@ -21,14 +21,12 @@
         .animate-slide-up {
             animation: slideUp 0.3s ease-in forwards;
         }
-        /* Три лінії «бургера»: верхня, середня, нижня */
         .burger-line {
             transition: all 0.3s ease-in-out;
         }
         .line1 { top: 4px; }
         .line2 { top: 11px; }
         .line3 { top: 18px; }
-        /* Відкрите меню: верхня й нижня лінії утворюють хрестик, середня зникає */
         .open .line1 {
             transform: translateY(7px) rotate(45deg);
         }
@@ -40,20 +38,23 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-blue-500 p-4">
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <nav class="bg-blue-600 p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ url_for('home') }}" class="text-white text-xl font-bold transition-transform duration-300 hover:scale-110">Теплий Сезон</a>
+            <a href="{{ url_for('home') }}" class="text-white text-xl font-bold transition-transform duration-300 hover:scale-105 flex items-center gap-2">
+                <span>🧥</span> Теплий Сезон
+            </a>
 
             <!-- Меню для широких екранів -->
-            <div class="hidden md:flex space-x-4">
-                <a href="{{ url_for('home') }}" class="text-white hover:text-blue-200 transition-colors duration-300 hover:underline">Головна</a>
-                <a href="{{ url_for('shop') }}" class="text-white hover:text-blue-200 transition-colors duration-300 hover:underline">Каталог</a>
-                <a href="{{ url_for('about') }}" class="text-white hover:text-blue-200 transition-colors duration-300 hover:underline">Про нас</a>
-                <a href="{{ url_for('feedback') }}" class="text-white hover:text-blue-200 transition-colors duration-300 hover:underline">Контакти</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="{{ url_for('home') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Головна</a>
+                <a href="{{ url_for('shop_bp.shop') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Каталог</a>
+                <a href="{{ url_for('about') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Про нас</a>
+                <a href="{{ url_for('feedback_bp.feedback') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Відгуки та контакти</a>
+                <a href="{{ url_for('admin_bp.dashboard') }}" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition shadow">Адмін-панель</a>
             </div>
 
-            <!-- Кнопка меню для мобільних пристроїв -->
+            <!-- Кнопка мобільного меню -->
             <button id="mobile-menu-button" type="button" aria-label="Відкрити меню" aria-expanded="false"
                     class="md:hidden text-white w-6 h-6 relative cursor-pointer focus:outline-none">
                 <span class="burger-line line1 block absolute left-0 h-0.5 w-6 bg-current"></span>
@@ -62,39 +63,59 @@
             </button>
         </div>
 
-        <!-- Мобільне меню (приховане за замовчуванням) -->
-        <div id="mobile-menu" class="hidden md:hidden overflow-hidden">
-            <a href="{{ url_for('home') }}" class="block text-white hover:text-blue-200 py-2 transition duration-300 hover:translate-x-2">Головна</a>
-            <a href="{{ url_for('shop') }}" class="block text-white hover:text-blue-200 py-2 transition duration-300 hover:translate-x-2">Каталог</a>
-            <a href="{{ url_for('about') }}" class="block text-white hover:text-blue-200 py-2 transition duration-300 hover:translate-x-2">Про нас</a>
-            <a href="{{ url_for('feedback') }}" class="block text-white hover:text-blue-200 py-2 transition duration-300 hover:translate-x-2">Контакти</a>
+        <!-- Мобільне меню -->
+        <div id="mobile-menu" class="hidden md:hidden overflow-hidden pt-2">
+            <a href="{{ url_for('home') }}" class="block text-white hover:text-blue-200 py-2">Головна</a>
+            <a href="{{ url_for('shop_bp.shop') }}" class="block text-white hover:text-blue-200 py-2">Каталог</a>
+            <a href="{{ url_for('about') }}" class="block text-white hover:text-blue-200 py-2">Про нас</a>
+            <a href="{{ url_for('feedback_bp.feedback') }}" class="block text-white hover:text-blue-200 py-2">Відгуки та контакти</a>
+            <a href="{{ url_for('admin_bp.dashboard') }}" class="block text-yellow-300 font-bold py-2">Адмін-панель</a>
         </div>
     </nav>
 
-    <main class="container mx-auto mt-8 p-4">
+    <!-- Відображення Flash-повідомлень -->
+    <div class="container mx-auto px-4 mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-4 mb-4 rounded-lg shadow-sm text-sm font-medium {% if category == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500{% elif category == 'error' %}bg-red-100 text-red-800 border-l-4 border-red-500{% else %}bg-blue-100 text-blue-800 border-l-4 border-blue-500{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="container mx-auto p-4 flex-grow">
         {% block content %}{% endblock %}
     </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 text-center text-sm mt-12">
+        <p>&copy; 2026 Теплий Сезон. Лабораторна робота №4 (Flask + SQLite).</p>
+    </footer>
 
     <script>
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuButton.addEventListener('click', () => {
-            const isOpen = mobileMenuButton.classList.toggle('open');
-            mobileMenuButton.setAttribute('aria-expanded', isOpen);
-            mobileMenuButton.setAttribute('aria-label', isOpen ? 'Закрити меню' : 'Відкрити меню');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isOpen = mobileMenuButton.classList.toggle('open');
+                mobileMenuButton.setAttribute('aria-expanded', isOpen);
+                mobileMenuButton.setAttribute('aria-label', isOpen ? 'Закрити меню' : 'Відкрити меню');
 
-            if (isOpen) {
-                mobileMenu.classList.remove('hidden', 'animate-slide-up');
-                mobileMenu.classList.add('animate-slide-down');
-            } else {
-                mobileMenu.classList.remove('animate-slide-down');
-                mobileMenu.classList.add('animate-slide-up');
-                setTimeout(() => {
-                    mobileMenu.classList.add('hidden');
-                }, 300);
-            }
-        });
+                if (isOpen) {
+                    mobileMenu.classList.remove('hidden', 'animate-slide-up');
+                    mobileMenu.classList.add('animate-slide-down');
+                } else {
+                    mobileMenu.classList.remove('animate-slide-down');
+                    mobileMenu.classList.add('animate-slide-up');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            });
+        }
     </script>
 </body>
 </html>
