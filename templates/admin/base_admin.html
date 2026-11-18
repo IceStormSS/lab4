@@ -30,6 +30,12 @@
                 <a href="{{ url_for('admin_bp.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition text-gray-700">
                     <span>📊</span> Загальний огляд
                 </a>
+                <a href="{{ url_for('admin_bp.orders_list') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition text-gray-700">
+                    <span>📦</span> Замовлення (Частина 2)
+                </a>
+                <a href="{{ url_for('admin_bp.coupons_list') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition text-gray-700">
+                    <span>🏷️</span> Промокоди (Рівень 3)
+                </a>
                 <a href="{{ url_for('admin_bp.feedbacks_list') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition text-gray-700">
                     <span>💬</span> Відгуки (Feedback)
                 </a>
@@ -42,10 +48,10 @@
             </nav>
 
             <div class="mt-6 pt-6 border-t border-gray-200">
-                <h3 class="text-xs font-bold text-orange-500 uppercase tracking-wider mb-2 px-3">Для напарника:</h3>
-                <div class="px-3 py-2 bg-orange-50 rounded-lg text-xs text-orange-700">
-                    <p class="font-bold">📦 Замовлення (Orders)</p>
-                    <p class="mt-1 text-gray-600">Буде реалізовано напарником у 2-й частині роботи.</p>
+                <h3 class="text-xs font-bold text-green-600 uppercase tracking-wider mb-2 px-3">Статус модулів:</h3>
+                <div class="px-3 py-2 bg-green-50 rounded-lg text-xs text-green-800 space-y-1">
+                    <p class="font-bold">✔ Частина 1 (Олександр): OK</p>
+                    <p class="font-bold">✔ Частина 2 (Матвій): OK</p>
                 </div>
             </div>
         </aside>

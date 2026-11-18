@@ -49,6 +49,7 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="{{ url_for('home') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Головна</a>
                 <a href="{{ url_for('shop_bp.shop') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Каталог</a>
+                <a href="{{ url_for('shop_bp.my_orders') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Мої замовлення</a>
                 <a href="{{ url_for('about') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Про нас</a>
                 <a href="{{ url_for('feedback_bp.feedback') }}" class="text-white hover:text-blue-200 transition-colors font-medium">Відгуки та контакти</a>
                 <a href="{{ url_for('admin_bp.dashboard') }}" class="bg-blue-800 hover:bg-blue-900 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition shadow">Адмін-панель</a>
@@ -67,6 +68,7 @@
         <div id="mobile-menu" class="hidden md:hidden overflow-hidden pt-2">
             <a href="{{ url_for('home') }}" class="block text-white hover:text-blue-200 py-2">Головна</a>
             <a href="{{ url_for('shop_bp.shop') }}" class="block text-white hover:text-blue-200 py-2">Каталог</a>
+            <a href="{{ url_for('shop_bp.my_orders') }}" class="block text-white hover:text-blue-200 py-2">Мої замовлення</a>
             <a href="{{ url_for('about') }}" class="block text-white hover:text-blue-200 py-2">Про нас</a>
             <a href="{{ url_for('feedback_bp.feedback') }}" class="block text-white hover:text-blue-200 py-2">Відгуки та контакти</a>
             <a href="{{ url_for('admin_bp.dashboard') }}" class="block text-yellow-300 font-bold py-2">Адмін-панель</a>
